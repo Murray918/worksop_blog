@@ -28,16 +28,28 @@ export default class Main extends Component {
 		]
 	}
 
+	handleDeletePost = index => {
+       let newState = this.state.blogEntries
+        newState.splice(index, 1)
+        this.setState({
+            blogEntries : newState 
+        })
+        
+	}
+
 	handleTogglePostForm = () => {
 		console.log('clicked')
 		this.setState({
 			isAddingEntry: !this.state.isAddingEntry
 		})
-	}
-
+    }
+    
 	handleNewPost = (user, entry) => {
 		this.setState({
-			blogEntries: [...this.state.blogEntries, { user, entry, comments: [] }],
+			blogEntries: [
+                { user, entry, comments: [] },
+                ...this.state.blogEntries
+            ],
 			isAddingEntry: !this.state.isAddingEntry
 		})
 	}
@@ -45,12 +57,28 @@ export default class Main extends Component {
 	render() {
 		const entries = this.state.blogEntries.map((item, index) => {
 			return (
-				<li key={index}>
-					<h5>{item.user}</h5>
-					<p>{item.entry}</p>
-					<Comments entryId={index} 
-                    comments={item.comments} 
-                    />
+				<li className="container" key={index} data={index}>
+					<div className="u-full-width">
+						<h5>{item.user}</h5>
+					</div>
+
+					<div>
+						<p>{item.entry}</p>
+						<span className="u-pull-right">
+							<div className="row">
+								<a onClick={this.handleEditPost} className="six columns">
+									Edit
+								</a>
+								<a
+									onClick={() => this.handleDeletePost(index)}
+									className="six columns"
+								>
+									Delete
+								</a>
+							</div>
+						</span>
+					</div>
+					<Comments entryId={index} comments={item.comments} />
 				</li>
 			)
 		})
@@ -58,7 +86,7 @@ export default class Main extends Component {
 		return (
 			<section>
 				<h2>Party Blog</h2>
-				<div>
+				<div className="u-full-width">
 					{!!this.state.isAddingEntry ? (
 						<BlogForm
 							className="container"
