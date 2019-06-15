@@ -67,9 +67,6 @@ export default class Main extends Component {
 						<p>{item.entry}</p>
 						<span className="u-pull-right">
 							<div className="row">
-								<a onClick={this.handleEditPost} className="six columns">
-									Edit
-								</a>
 								<a
 									onClick={() => this.handleDeletePost(index)}
 									className="six columns"
