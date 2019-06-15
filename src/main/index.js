@@ -35,6 +35,7 @@ export default class Main extends Component {
             blogEntries : newState 
         })
         
+        
 	}
 
 	handleTogglePostForm = () => {
